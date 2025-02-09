@@ -2,26 +2,27 @@ import streamlit as st
 import xgboost as xgb
 import numpy as np
 
-# Load the trained model
-model = xgb.XGBRegressor()
-model.load_model("optimized_xgboost_Optuna.model")  # Replace with your actual model file
+# Load trained model
+model_path = "/content/drive/MyDrive/PhD Australia /Saved Model /optimized_xgboost_Optuna.model"
+loaded_model = xgb.XGBRegressor()
+loaded_model.load_model(model_path)
 
-# Streamlit UI
-st.title("Concrete Strength Prediction")
-st.write("Enter the mix design parameters to predict strength")
+# Title of the web app
+st.title("Concrete Strength Prediction App")
+st.write("Enter the input values below to predict compressive strength.")
 
-# User input fields
-Cement = st.number_input("Cement (kg/m³)", min_value=0.0, value=300.0)
-Blast Furnace Slag = st.number_input("Blast Furnace Slag (kg/m³)", min_value=0.0, value=250.0)
-Fly Ash = st.number_input("Fly Ash (kg/m³)", min_value=0.0, value=100.0)
-Water = st.number_input("Water (kg/m³)", min_value=0.0, value=180.0)
-Superplasticizer = st.number_input("Superplasticizer (kg/m³)", min_value=0.0, value=5.0)
-Coarse Aggregate = st.number_input("Coarse Aggregate (kg/m³)", min_value=0.0, value=1000.0)
-Fine Aggregate = st.number_input("Fine Aggregate (kg/m³)", min_value=0.0, value=800.0)
-Age (day) = st.number_input("Age (days)", min_value=1, value=28)
+# Input fields for user
+cement = st.number_input("Cement (kg/m³)", min_value=0.0, format="%.2f")
+blast_furnace_slag = st.number_input("Blast Furnace Slag (kg/m³)", min_value=0.0, format="%.2f")
+fly_ash = st.number_input("Fly Ash (kg/m³)", min_value=0.0, format="%.2f")
+water = st.number_input("Water (kg/m³)", min_value=0.0, format="%.2f")
+superplasticizer = st.number_input("Superplasticizer (kg/m³)", min_value=0.0, format="%.2f")
+coarse_aggregate = st.number_input("Coarse Aggregate (kg/m³)", min_value=0.0, format="%.2f")
+fine_aggregate = st.number_input("Fine Aggregate (kg/m³)", min_value=0.0, format="%.2f")
+age = st.number_input("Age of Concrete (Days)", min_value=1, format="%d")
 
 # Prediction
-if st.button("Predict"):
-    features = np.array([[Cement, Blast Furnace Slag, Fly Ash, Water, Superplasticizerr, Coarse Aggregate, Fine Aggregate, Age (day)]])
-    prediction = model.predict(features)
+if st.button("Predict Strength"):
+    input_data = np.array([[cement,blast_furnace_slag, fly_ash, water, superplasticizer, coarse_aggregate, fine_aggregate, age]])
+    prediction = loaded_model.predict(input_data)
     st.success(f"Predicted Compressive Strength: {prediction[0]:.2f} MPa")
