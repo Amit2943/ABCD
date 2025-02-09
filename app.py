@@ -3,7 +3,7 @@ import xgboost as xgb
 import numpy as np
 
 # Load trained model
-model_path = "/content/drive/MyDrive/PhD Australia /Saved Model /optimized_xgboost_Optuna.model"
+model_path = "/content/optimized_xgboost_Optuna.model"
 loaded_model = xgb.XGBRegressor()
 loaded_model.load_model(model_path)
 
